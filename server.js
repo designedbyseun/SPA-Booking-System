@@ -16,7 +16,7 @@ const POSTMARK_API_KEY = process.env.POSTMARK_API_KEY;
    ============================================================ */
 async function sendEmail({ to, subject, html, replyTo }) {
   const body = {
-    From:     'spaajibadebooking@gmail.com',
+    From: 'oawosola@spaajibade.com',
     To:       to,
     Subject:  subject,
     HtmlBody: html,
