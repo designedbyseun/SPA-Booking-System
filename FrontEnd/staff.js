@@ -13,7 +13,7 @@
    ============================================================ */
 
 // Point to your Node.js backend. Update this URL when deployed.
-const API_URL = 'http://localhost:3000';
+const API_URL = 'https://spa-booking-system-qqrf.onrender.com';
 
 /* ============================================================
    1. STAFF DATA
