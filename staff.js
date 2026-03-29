@@ -239,7 +239,7 @@ function validateAndCollectStep1() {
 
   clearError(messageEl, 'message-error');
   if (!messageEl.value.trim()) {
-    showError(messageEl, 'message-error', 'Please provide a brief description of your request.');
+    showError(messageEl, 'message-error', 'Please describe your request.');
     valid = false;
   }
 
@@ -506,9 +506,9 @@ async function handleConfirmBooking() {
       `Your request to meet with ${member.name} on ${bookingDate} at ${slot} has been sent successfully.`;
     document.getElementById('booking-success').hidden = false;
 
-    // Automatically reset the process after 7 seconds
+    // After a delay of 7 seconds, take the user back to the beginning
     setTimeout(() => {
-      window.location.reload();
+      init();
     }, 7000);
 
   } catch (err) {
