@@ -226,6 +226,7 @@ function validateAndCollectStep1() {
   const firstNameEl = document.getElementById('first-name');
   const lastNameEl  = document.getElementById('last-name');
   const emailEl     = document.getElementById('email');
+  const messageEl   = document.getElementById('message');
   let valid = true;
 
   clearError(firstNameEl, 'first-name-error');
@@ -249,18 +250,24 @@ function validateAndCollectStep1() {
     valid = false;
   }
 
+  clearError(messageEl, 'message-error');
+  if (!messageEl.value.trim()) {
+    showError(messageEl, 'message-error', 'Please describe your request.');
+    valid = false;
+  }
+
   if (valid) {
     state.userInfo.firstName = firstNameEl.value.trim();
     state.userInfo.lastName  = lastNameEl.value.trim();
     state.userInfo.email     = emailEl.value.trim();
     state.userInfo.phone     = document.getElementById('phone').value.trim();
-    state.userInfo.message   = document.getElementById('message').value.trim();
+    state.userInfo.message   = messageEl.value.trim();
   }
 
   return valid;
 }
 
-['first-name', 'last-name', 'email'].forEach((id) => {
+['first-name', 'last-name', 'email', 'message'].forEach((id) => {
   const el = document.getElementById(id);
   if (!el) return;
   el.addEventListener('input', () => clearError(el, `${id}-error`));
@@ -519,6 +526,16 @@ async function handleConfirmBooking() {
     document.getElementById('success-message').textContent  =
       `Your request to meet with ${member.name} on ${bookingDate} at ${slot} has been sent successfully.`;
     document.getElementById('booking-success').hidden = false;
+
+    // After a delay of 7 seconds, reset the process
+    setTimeout(() => {
+      userForm.reset();
+      state.selectedStaff = null;
+      state.userInfo = { firstName: '', lastName: '', email: '', phone: '', message: '' };
+      calState.selectedDate = null;
+      calState.selectedSlot = null;
+      init();
+    }, 7000);
 
   } catch (err) {
     console.error('Booking error:', err);

@@ -8,35 +8,36 @@ const app  = express();
 app.use(cors());
 app.use(express.json());
 
-const PORT           = process.env.PORT || 3000;
-const BREVO_API_KEY  = process.env.BREVO_API_KEY;
+const PORT             = process.env.PORT || 3000;
+const POSTMARK_API_KEY = process.env.POSTMARK_API_KEY;
 
 /* ============================================================
-   SEND EMAIL VIA BREVO HTTP API
+   SEND EMAIL VIA POSTMARK HTTP API
    ============================================================ */
 async function sendEmail({ to, subject, html, replyTo }) {
   const body = {
-    sender:  { name: 'SPA Ajibade Booking', email: 'spaajibadebooking@gmail.com' },
-    to:      [{ email: to }],
-    subject,
-    htmlContent: html,
+    From:     'spaajibadebooking@gmail.com',
+    To:       to,
+    Subject:  subject,
+    HtmlBody: html,
+    MessageStream: 'outbound',
   };
 
-  if (replyTo) body.replyTo = { email: replyTo };
+  if (replyTo) body.ReplyTo = replyTo;
 
-  const response = await fetch('https://api.brevo.com/v3/smtp/email', {
+  const response = await fetch('https://api.postmarkapp.com/email', {
     method:  'POST',
     headers: {
-      'api-key':      BREVO_API_KEY,
-      'Content-Type': 'application/json',
-      'Accept':       'application/json',
+      'Accept':                  'application/json',
+      'Content-Type':            'application/json',
+      'X-Postmark-Server-Token': POSTMARK_API_KEY,
     },
     body: JSON.stringify(body),
   });
 
   if (!response.ok) {
     const error = await response.json();
-    throw new Error(error.message || 'Brevo API error');
+    throw new Error(error.Message || 'Postmark API error');
   }
 
   return response.json();
