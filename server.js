@@ -134,6 +134,18 @@ app.post('/api/book', async (req, res) => {
 
     res.status(200).json({ success: true, message: 'Booking notifications sent.' });
   } catch (error) {
+    app.post('/api/book', async (req, res) => {
+  // Add this check
+  if (!process.env.EMAIL_USER || !process.env.EMAIL_PASS) {
+    console.error('Missing EMAIL_USER or EMAIL_PASS environment variables');
+    return res.status(500).json({ 
+      success: false, 
+      message: 'Server configuration error: Email credentials not set' 
+    });
+  }
+  
+  // ... rest of your code
+});
     // Logging the full error helps identify if it's an Auth issue or a Network issue
     console.error('FULL SMTP ERROR:', error);
     res.status(500).json({ success: false, message: 'Failed to send email notification.', error: error.message });
