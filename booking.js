@@ -18,7 +18,7 @@
    ============================================================ */
 
 // Point to your Node.js backend. Update this URL when deployed.
-const API_URL = 'https://spa-booking-system-qqrf.onrender.com';
+const API_URL = 'https://spa-booking-system-production.up.railway.app';
 
 /* ============================================================
    1. STAFF DATA
