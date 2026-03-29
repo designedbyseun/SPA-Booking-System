@@ -14,14 +14,15 @@ const PORT = process.env.PORT || 3000;
 /* ============================================================
    SMTP TRANSPORT — Gmail + App Password
    ============================================================ */
+// Using 'service: gmail' is more reliable than manual host/port settings
 const transporter = nodemailer.createTransport({
-  host:   'smtp.gmail.com',
-  port:   587,
-  secure: false,
+  service: 'gmail',
   auth: {
     user: process.env.EMAIL_USER,
     pass: process.env.EMAIL_PASS,
   },
+  debug: true, // Show debug output in logs
+  logger: true // Log information into console
 });
 
 /* ============================================================
@@ -133,9 +134,15 @@ app.post('/api/book', async (req, res) => {
 
     res.status(200).json({ success: true, message: 'Booking notifications sent.' });
   } catch (error) {
-    console.error('SMTP Error:', error.message);
+    // Logging the full error helps identify if it's an Auth issue or a Network issue
+    console.error('FULL SMTP ERROR:', error);
     res.status(500).json({ success: false, message: 'Failed to send email notification.', error: error.message });
   }
+});
+
+// Basic health check route
+app.get('/', (req, res) => {
+  res.send('SPA Ajibade Backend is live.');
 });
 
 app.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`));
