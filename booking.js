@@ -30,8 +30,8 @@ const STAFF = [
     id: 'babatunde',
     name: 'Dr. Babatunde Ajibade, SAN',
     role: 'Managing Partner',
-    departments: ['Dispute Resolution', 'Corporate Finance', 'Real Estate'],
-    email: 'oawosola@spaajibade.com',
+    departments: ['Dispute Resolution', 'Corporate Finance', 'Real Estate'], 
+    email: 'ithelpdesk@spaajibade.com',
     highlight: false,
   },
   {
